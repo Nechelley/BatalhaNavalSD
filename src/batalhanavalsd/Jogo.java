@@ -5,6 +5,76 @@ package batalhanavalsd;
  * @author Nechelley Alves
  */
 public class Jogo {
+
+    /**
+     * @return the tabelaJogadorUm
+     */
+    public Posicao[][] getTabelaJogadorUm() {
+        return tabelaJogadorUm;
+    }
+
+    /**
+     * @param tabelaJogadorUm the tabelaJogadorUm to set
+     */
+    public void setTabelaJogadorUm(Posicao[][] tabelaJogadorUm) {
+        this.tabelaJogadorUm = tabelaJogadorUm;
+    }
+
+    /**
+     * @return the tabelaJogadorDois
+     */
+    public Posicao[][] getTabelaJogadorDois() {
+        return tabelaJogadorDois;
+    }
+
+    /**
+     * @param tabelaJogadorDois the tabelaJogadorDois to set
+     */
+    public void setTabelaJogadorDois(Posicao[][] tabelaJogadorDois) {
+        this.tabelaJogadorDois = tabelaJogadorDois;
+    }
+
+    /**
+     * @return the pontosTabelaUm
+     */
+    public int getPontosTabelaUm() {
+        return pontosTabelaUm;
+    }
+
+    /**
+     * @param pontosTabelaUm the pontosTabelaUm to set
+     */
+    public void setPontosTabelaUm(int pontosTabelaUm) {
+        this.pontosTabelaUm = pontosTabelaUm;
+    }
+
+    /**
+     * @return the pontosTabelaDois
+     */
+    public int getPontosTabelaDois() {
+        return pontosTabelaDois;
+    }
+
+    /**
+     * @param pontosTabelaDois the pontosTabelaDois to set
+     */
+    public void setPontosTabelaDois(int pontosTabelaDois) {
+        this.pontosTabelaDois = pontosTabelaDois;
+    }
+
+    /**
+     * @return the vez
+     */
+    public int getVez() {
+        return vez;
+    }
+
+    /**
+     * @param vez the vez to set
+     */
+    public void setVez(int vez) {
+        this.vez = vez;
+    }
     private Posicao tabelaJogadorUm[][];//tabela do primeiro jogador, onde estao suas pecas
     private Posicao tabelaJogadorDois[][];//tabela do segundo jogador, onde estao suas pecas
     private int pontosTabelaUm;//quantos pontos podem ser feitos na tabela um
@@ -82,11 +152,12 @@ public class Jogo {
      * 3 = jogo acabou.
      * @param x linha da tabela
      * @param y coluna da tabela
+     * @return codigo dizendo o que ocorreu
      */
     public int fazerAcao(int x, int y){
-        Posicao tabelaAlvo[][] = this.tabelaJogadorUm;
-        if(vez == 0){//jogador um esta acertando a tabela do jogador dois
-            tabelaAlvo = this.tabelaJogadorDois;
+        Posicao tabelaAlvo[][] = this.getTabelaJogadorUm();
+        if(getVez() == 0){//jogador um esta acertando a tabela do jogador dois
+            tabelaAlvo = this.getTabelaJogadorDois();
         }
         Posicao alvo = tabelaAlvo[x][y];
         
@@ -95,11 +166,11 @@ public class Jogo {
             return 0;
         }
         
-        if(vez == 0){
-            vez = 1;
+        if(getVez() == 0){
+            setVez(1);
         }
         else{
-            vez = 0;
+            setVez(0);
         }
         
         //atira
@@ -111,15 +182,15 @@ public class Jogo {
             alvo.setValorExibido("O");
             
             //testar se o jogo acabou
-            if(vez == 0){//jogador um esta acertando a tabela do jogador dois
-                this.pontosTabelaDois--;
-                if(this.pontosTabelaDois == 0){//acabou o jogo
+            if(getVez() == 0){//jogador um esta acertando a tabela do jogador dois
+                this.setPontosTabelaDois(this.getPontosTabelaDois() - 1);
+                if(this.getPontosTabelaDois() == 0){//acabou o jogo
                     return 3;
                 }
             }
             else{
-                this.pontosTabelaUm--;
-                if(this.pontosTabelaUm == 0){//acabou o jogo
+                this.setPontosTabelaUm(this.getPontosTabelaUm() - 1);
+                if(this.getPontosTabelaUm() == 0){//acabou o jogo
                     return 3;
                 }
             }
@@ -135,9 +206,9 @@ public class Jogo {
      * @return 
      */
     public String tabelaToString(int tabela, int tipo){
-        Posicao tabelaEscolhida[][] = this.tabelaJogadorUm;
+        Posicao tabelaEscolhida[][] = this.getTabelaJogadorUm();
         if(tabela == 2){
-            tabelaEscolhida = this.tabelaJogadorDois;
+            tabelaEscolhida = this.getTabelaJogadorDois();
         }
         
         String retorno = "";
@@ -158,7 +229,7 @@ public class Jogo {
                         break;
                 }
             }
-             retorno += "]\n";
+             retorno += "]lin";
         }
         return retorno;
     }
