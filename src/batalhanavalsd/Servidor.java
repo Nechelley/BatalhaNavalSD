@@ -1,5 +1,3 @@
-package batalhanavalsd;
-
 import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
@@ -19,10 +17,12 @@ public class Servidor extends Thread{
 
         try{
             serverSocket = new ServerSocket(10008);//cria o socket para o servidor, porta 10008
-            System.out.println ("Connection Socket Created");
+//            System.out.println ("Connection Socket Created");
+            System.out.println ("Servidor Iniciado!");
             try{ 
                 while (Servidor.jogadores != 2){//fica esperando os cliente entrarem e cria a conexao
-                    System.out.println ("Waiting for Connection");
+//                    System.out.println ("Waiting for Connection");
+                    System.out.println ("Esperando por jogadores ...");
                     new Servidor (serverSocket.accept()); 
                 }
             } 
@@ -61,7 +61,8 @@ public class Servidor extends Thread{
     }
 
     public void run(){
-        System.out.println ("New Communication Thread Started");
+        // System.out.println ("New Communication Thread Started");
+        System.out.println ("Jogador " + Servidor.jogadores + " entrou na partida!");
 
         try{ 
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true); 
@@ -71,7 +72,7 @@ public class Servidor extends Thread{
             int vez = Servidor.jogadores - 1;//jogador 0 ou 1
             
             while ((inputLine = in.readLine()) != null) {
-                if (inputLine.equals("Bye.")) 
+                if (inputLine.equals("SAIR")) 
                     break;
                 
                 //codigo de vdd
@@ -84,7 +85,14 @@ public class Servidor extends Thread{
                     out.println("1");
                     String respostaCliente[] = in.readLine().split(" ");
                     if(respostaCliente[0].equals("0")){//jogou
-                        Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
+                        int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
+                        if (resultadoAcao == 1) {
+                            out.println("Errou :(");
+                        } else if (resultadoAcao == 2) {
+                            out.println("Acertou :)");
+                        } else {
+                            out.println("Você já atirou aqui! :/");
+                        }
                     }
                     else if(respostaCliente[0].equals("1")){//exibir tabelas
                         out.println(Servidor.batalhaNaval.tabelaToString(1, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 0));

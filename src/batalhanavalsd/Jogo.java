@@ -1,5 +1,3 @@
-package batalhanavalsd;
-
 /**
  *
  * @author Nechelley Alves
@@ -178,7 +176,7 @@ public class Jogo {
             alvo.setValorExibido("X");
             return 1;
         }
-        else{
+        else{//acertou o tiro
             alvo.setValorExibido("O");
             
             //testar se o jogo acabou

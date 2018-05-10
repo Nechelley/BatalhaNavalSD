@@ -1,5 +1,3 @@
-package batalhanavalsd;
-
 /**
  *
  * @author Nechelley Alves

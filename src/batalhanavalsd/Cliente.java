@@ -1,5 +1,3 @@
-package batalhanavalsd;
-
 import java.io.*;
 import java.net.*;
 
@@ -13,7 +11,9 @@ public class Cliente{
     public static void ini() throws IOException{
         String serverHostname = new String ("127.0.0.1");
 
-        System.out.println ("Attemping to connect to host " + serverHostname + " on port 10008.");
+        // System.out.println ("Attemping to connect to host " + serverHostname + " on port 10008.");
+
+        System.out.println ("Conectando-se ao servidor " + serverHostname + " na porta 10008.");
 
         Socket echoSocket = null;
         PrintWriter out = null;
@@ -37,10 +37,11 @@ public class Cliente{
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         String userInput;
 
-        System.out.println ("Type Message (\"Bye.\" to quit)");
+        // System.out.println ("Type Message (\"Bye.\" to quit)");
+        System.out.println ("Conectado!\nDigite (\"SAIR\" para sair do jogo\nPressione ENTER para começar");
         while ((userInput = stdIn.readLine()) != null) {
             out.println(userInput);
-            if (userInput.equals("Bye."))
+            if (userInput.equals("SAIR"))
                 break;
             
             //codigo de vdd
@@ -51,16 +52,20 @@ public class Cliente{
             }
             if(leuDoServidor.equals("1")){//vez do jogador
                 System.out.println("Sua vez!");
-                System.out.println("0-jogar 1-exibirMapas");
+                System.out.println("0 - jogar | 1 - exibirMapas");
                 String leuDoCliente = stdIn.readLine();
                 while(leuDoCliente.equals("0") && leuDoCliente.equals("1")){
                     leuDoCliente = stdIn.readLine();
                 }
                 
                 if(leuDoCliente.equals("0")){//jogar
+                    System.out.print("Coordenada X: ");
                     String x = stdIn.readLine();
+                    System.out.print("Coordenada Y: ");
                     String y = stdIn.readLine();
                     out.println("0 "+x+" "+y);
+                    System.out.println(in.readLine());
+                    System.out.println("\nVez do adversário");
                 }
                 else if(leuDoCliente.equals("1")){//exibir tabela
                     out.println("1");
