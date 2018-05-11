@@ -113,13 +113,13 @@ public class Jogo {
         tabela[1][2].setValorLogico(1);
         tabela[1][3].setValorLogico(1);
         
-        tabela[6][5].setValorLogico(1);
-        tabela[6][6].setValorLogico(1);
-        tabela[6][7].setValorLogico(1);
+        // tabela[6][5].setValorLogico(1);
+        // tabela[6][6].setValorLogico(1);
+        // tabela[6][7].setValorLogico(1);
         
-        tabela[4][8].setValorLogico(1);
-        tabela[5][8].setValorLogico(1);
-        tabela[6][8].setValorLogico(1);
+        // tabela[4][8].setValorLogico(1);
+        // tabela[5][8].setValorLogico(1);
+        // tabela[6][8].setValorLogico(1);
     }
     
     /**
@@ -195,7 +195,6 @@ public class Jogo {
             return 2;
         }
     }
-    
     
     /**
      * Tabela do jogador um em formato de string para exibicao

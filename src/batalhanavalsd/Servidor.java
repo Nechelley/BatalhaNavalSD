@@ -11,6 +11,7 @@ public class Servidor extends Thread{
     protected Socket clientSocket;
     private static Jogo batalhaNaval = null;
     private static int jogadores = 0;
+    private static Boolean acabou = false;
     
     public static void ini() throws IOException{
         ServerSocket serverSocket = null; 
@@ -52,7 +53,7 @@ public class Servidor extends Thread{
      */
     private Servidor (Socket clientSoc){
         if(Servidor.batalhaNaval == null){
-            Servidor.batalhaNaval = new Jogo(10,10);
+            Servidor.batalhaNaval = new Jogo(5,5);
         }
         Servidor.jogadores++;
         
@@ -67,7 +68,7 @@ public class Servidor extends Thread{
         try{ 
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true); 
             BufferedReader in = new BufferedReader(new InputStreamReader( clientSocket.getInputStream())); 
-
+            
             String inputLine;
             int vez = Servidor.jogadores - 1;//jogador 0 ou 1
             
@@ -82,21 +83,28 @@ public class Servidor extends Thread{
                 }
                 
                 if(vez == Servidor.batalhaNaval.getVez()){//verifica se e a vez do jogador
-                    out.println("1");
+                    if ( acabou ) {
+                        out.println("3");    
+                    } else {
+                        out.println("1");
+                    }
                     String respostaCliente[] = in.readLine().split(" ");
                     if(respostaCliente[0].equals("0")){//jogou
                         int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
-                        if (resultadoAcao == 1) {
-                            out.println("Errou :(");
-                        } else if (resultadoAcao == 2) {
-                            out.println("Acertou :)");
-                        } else {
-                            out.println("Você já atirou aqui! :/");
+
+                        if (resultadoAcao == 3) {
+                            Servidor.acabou = true;
                         }
-                    }
+                        out.println(resultadoAcao);
+                    } 
                     else if(respostaCliente[0].equals("1")){//exibir tabelas
-                        out.println(Servidor.batalhaNaval.tabelaToString(1, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 0));
-                    }                    
+                        out.println(Servidor.batalhaNaval.tabelaToString(1, 1) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 2));
+                    }
+                    else if (respostaCliente[0].equals("3")){
+                        // o jogo acabou
+                        System.out.println("O jogo acabou!");
+                        inputLine = null;
+                    }
                 }
                 else{
                     out.println("2");

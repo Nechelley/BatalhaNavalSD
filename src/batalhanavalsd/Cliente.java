@@ -64,8 +64,22 @@ public class Cliente{
                     System.out.print("Coordenada Y: ");
                     String y = stdIn.readLine();
                     out.println("0 "+x+" "+y);
-                    System.out.println(in.readLine());
-                    System.out.println("\nVez do adversário");
+
+                    int resultado = Integer.parseInt(in.readLine());
+
+                    if (resultado == 1) {
+                        System.out.println("Errou :(");
+                        System.out.println("Vez do adversário");
+                    } else if (resultado == 2) {
+                        System.out.println("Acertou :)");
+                        System.out.println("Vez do adversário");
+                    } else if (resultado == 0) {
+                        System.out.println("Você já atirou aqui! :/\nPressione ENTER para atirar novamente!");
+                    } else if (resultado == 3) {
+                        System.out.println("Voce venceu!!!\nO jogo acabou!");
+                        break;
+                    }
+
                 }
                 else if(leuDoCliente.equals("1")){//exibir tabela
                     out.println("1");
@@ -83,6 +97,11 @@ public class Cliente{
             }
             if(leuDoServidor.equals("2")){//nao vez do jogador
                 System.out.println("Nao e sua vez!");
+            }
+            if(leuDoServidor.equals("3")){//avisa o jogador que perdeu
+                System.out.println("Voce perdeu!!!\nO jogo acabou!");
+                out.println("3 ");
+                break;
             }
             
         }
