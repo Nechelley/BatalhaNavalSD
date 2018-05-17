@@ -12,6 +12,7 @@ public class Servidor extends Thread{
 	private static Jogo batalhaNaval = null;
 	private static int jogadores = 0;
 	private static Boolean acabou = false;
+	private static Boolean jogar = false;
 
 	public static void main(String[] args) throws IOException{
 		ServerSocket serverSocket = null;
@@ -62,15 +63,18 @@ public class Servidor extends Thread{
 	public void run(){
 		// System.out.println ("New Communication Thread Started");
 		System.out.println ("Jogador " + Servidor.jogadores + " entrou na partida!");
-
+		
 		try{
 			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
+	
+			// out.println("Você é o jogador " + Servidor.jogadores);
 
 			String inputLine;
 			int vez = Servidor.jogadores - 1;//jogador 0 ou 1
 
 			while ((inputLine = in.readLine()) != null) {
+				// System.out.println("teste");
 				if (inputLine.equals("SAIR"))
 					break;
 
@@ -81,22 +85,29 @@ public class Servidor extends Thread{
 				}
 
 				if(vez == Servidor.batalhaNaval.getVez()){//verifica se e a vez do jogador
+					
 					if ( acabou ) {
 						out.println("3");
-					} else {
+					} else if (!Servidor.jogar){
 						out.println("1");
 					}
+					
+					System.out.println("aqui");
 					String respostaCliente[] = in.readLine().split(" ");
+					System.out.println(respostaCliente[0]);
+					if(respostaCliente[0].equals("1")){//exibir tabelas
+						Servidor.jogar = true;
+						out.println(Servidor.batalhaNaval.tabelaToString(1, 1) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 2));
+						respostaCliente = in.readLine().split(" ");
+					} 
 					if(respostaCliente[0].equals("0")){//jogou
 						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
 
 						if (resultadoAcao == 3) {
 							Servidor.acabou = true;
 						}
-						out.println(resultadoAcao);
-					}
-					else if(respostaCliente[0].equals("1")){//exibir tabelas
-						out.println(Servidor.batalhaNaval.tabelaToString(1, 1) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 2));
+
+						Servidor.jogar = false;
 					}
 					else if (respostaCliente[0].equals("3")){
 						// o jogo acabou
