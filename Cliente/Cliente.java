@@ -42,7 +42,16 @@ public class Cliente{
 		String userInput;
 
 		// System.out.println ("Type Message (\"Bye.\" to quit)");
-		System.out.println ("Conectado!\nDigite (\"SAIR\" para sair do jogo)\nPressione ENTER para começar");
+
+		String vez = in.readLine();
+		if (vez.equals("0")) {
+			System.out.println("Você é o jogador 1. \nEsperando pelo jogador 2!");
+			in.readLine();
+		} else {
+			System.out.println("Você é o jogador 2. \nEspere sua vez!");
+		}
+
+		System.out.println ("Jogo Iniciado!\nDigite (\"SAIR\" para sair do jogo)");
 		while ((userInput = stdIn.readLine()) != null) {
 			out.println(userInput);
 			if (userInput.equals("SAIR"))

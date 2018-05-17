@@ -67,11 +67,32 @@ public class Servidor extends Thread{
 		try{
 			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
-	
+
 			// out.println("Você é o jogador " + Servidor.jogadores);
 
 			String inputLine;
 			int vez = Servidor.jogadores - 1;//jogador 0 ou 1
+
+			out.println(vez);
+			if (vez == 0) {
+				while(Servidor.jogadores != 2) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException ex) {
+						System.err.println("Erro");
+					}
+				}
+				out.println("1");
+			} else {
+				while(Servidor.jogadores != 2) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException ex) {
+						System.err.println("Erro");
+					}
+				}
+				out.println("0");
+			}
 
 			while ((inputLine = in.readLine()) != null) {
 				// System.out.println("teste");
