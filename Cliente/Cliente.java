@@ -61,11 +61,11 @@ public class Cliente{
 					
 				out.println("1");
 				String tabelas[] = in.readLine().split("tab");//separa as duas tabelas
-				System.out.println("Minha Tabela");
+				System.out.println("Tiros do adversario");
 				for (String linha : tabelas[0].split("lin")) {
 					System.out.println(linha);
 				}
-				System.out.println("\n\nTabela do adversario");
+				System.out.println("\nMeus tiros");
 				for (String linha : tabelas[1].split("lin")) {
 					System.out.println(linha);
 				}
@@ -73,6 +73,10 @@ public class Cliente{
 				System.out.println("\nFaça sua jodada");
 				System.out.print("Coordenada X: ");
 				String x = stdIn.readLine();
+				// while(!x.equals("") && x != null) {
+				// 	System.out.print("Coordenada X: ");
+				// 	x = stdIn.readLine();
+				// } 
 				System.out.print("Coordenada Y: ");
 				String y = stdIn.readLine();
 				out.println("0 "+x+" "+y);
@@ -88,6 +92,8 @@ public class Cliente{
 					System.out.println("Vez do adversário");
 				} else if (resultado == 0) {
 					System.out.println("Você já atirou aqui! :/\nPressione ENTER para atirar novamente!");
+				} else if (resultado == 4) {
+					System.out.println("Coordenada inválida!!!\nPressione ENTER para atirar novamente!");
 				} else if (resultado == 3) {
 					System.out.println("Voce venceu!!!\nO jogo acabou!");
 					break;

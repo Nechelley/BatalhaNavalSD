@@ -157,12 +157,15 @@ public class Jogo {
 		if(getVez() == 0){//jogador um esta acertando a tabela do jogador dois
 			tabelaAlvo = this.getTabelaJogadorDois();
 		}
+		if (x >= tabelaJogadorUm.length || y >= tabelaJogadorUm[0].length || x < 0 || y < 0) {
+			return 4;
+		}
 		Posicao alvo = tabelaAlvo[x][y];
 
 		//verifica se o lugar ja foi acertado
 		if(alvo.getValorExibido().equals("X") || alvo.getValorExibido().equals("O")){
 			return 0;
-		}
+		} 
 
 		if(getVez() == 0){
 			setVez(1);

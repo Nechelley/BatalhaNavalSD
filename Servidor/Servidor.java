@@ -108,6 +108,7 @@ public class Servidor extends Thread{
 						System.out.println(respostaCliente[0]);
 					} 
 					if(respostaCliente[0].equals("0")){//jogou
+						
 						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
 
 						if (resultadoAcao == 3) {
