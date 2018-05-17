@@ -97,8 +97,15 @@ public class Servidor extends Thread{
 					System.out.println(respostaCliente[0]);
 					if(respostaCliente[0].equals("1")){//exibir tabelas
 						Servidor.jogar = true;
-						out.println(Servidor.batalhaNaval.tabelaToString(1, 1) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 2));
+
+						if (vez == 0) {
+
+							out.println(Servidor.batalhaNaval.tabelaToString(1, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 1));
+						} else {
+							out.println(Servidor.batalhaNaval.tabelaToString(2, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(1, 1));
+						}
 						respostaCliente = in.readLine().split(" ");
+						System.out.println(respostaCliente[0]);
 					} 
 					if(respostaCliente[0].equals("0")){//jogou
 						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
@@ -108,6 +115,7 @@ public class Servidor extends Thread{
 						}
 
 						Servidor.jogar = false;
+						out.println(resultadoAcao);
 					}
 					else if (respostaCliente[0].equals("3")){
 						// o jogo acabou

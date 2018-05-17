@@ -61,11 +61,11 @@ public class Cliente{
 					
 				out.println("1");
 				String tabelas[] = in.readLine().split("tab");//separa as duas tabelas
-				System.out.println("Tabela jogador 1");
+				System.out.println("Minha Tabela");
 				for (String linha : tabelas[0].split("lin")) {
 					System.out.println(linha);
 				}
-				System.out.println("\n\nTabela jogador 2");
+				System.out.println("\n\nTabela do adversario");
 				for (String linha : tabelas[1].split("lin")) {
 					System.out.println(linha);
 				}
