@@ -63,11 +63,11 @@ public class Servidor extends Thread{
 	public void run(){
 		// System.out.println ("New Communication Thread Started");
 		System.out.println ("Jogador " + Servidor.jogadores + " entrou na partida!");
-		
+
 		try{
 			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
-	
+
 			// out.println("Você é o jogador " + Servidor.jogadores);
 
 			String inputLine;
@@ -85,13 +85,13 @@ public class Servidor extends Thread{
 				}
 
 				if(vez == Servidor.batalhaNaval.getVez()){//verifica se e a vez do jogador
-					
+
 					if ( acabou ) {
 						out.println("3");
 					} else if (!Servidor.jogar){
 						out.println("1");
 					}
-					
+
 					System.out.println("aqui");
 					String respostaCliente[] = in.readLine().split(" ");
 					System.out.println(respostaCliente[0]);
@@ -99,7 +99,7 @@ public class Servidor extends Thread{
 						Servidor.jogar = true;
 						out.println(Servidor.batalhaNaval.tabelaToString(1, 1) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 2));
 						respostaCliente = in.readLine().split(" ");
-					} 
+					}
 					if(respostaCliente[0].equals("0")){//jogou
 						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
 
