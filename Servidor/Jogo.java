@@ -2,77 +2,7 @@
  *
  * @author Nechelley Alves
  */
-public class Jogo {
-
-	/**
-	 * @return the tabelaJogadorUm
-	 */
-	public Posicao[][] getTabelaJogadorUm() {
-		return tabelaJogadorUm;
-	}
-
-	/**
-	 * @param tabelaJogadorUm the tabelaJogadorUm to set
-	 */
-	public void setTabelaJogadorUm(Posicao[][] tabelaJogadorUm) {
-		this.tabelaJogadorUm = tabelaJogadorUm;
-	}
-
-	/**
-	 * @return the tabelaJogadorDois
-	 */
-	public Posicao[][] getTabelaJogadorDois() {
-		return tabelaJogadorDois;
-	}
-
-	/**
-	 * @param tabelaJogadorDois the tabelaJogadorDois to set
-	 */
-	public void setTabelaJogadorDois(Posicao[][] tabelaJogadorDois) {
-		this.tabelaJogadorDois = tabelaJogadorDois;
-	}
-
-	/**
-	 * @return the pontosTabelaUm
-	 */
-	public int getPontosTabelaUm() {
-		return pontosTabelaUm;
-	}
-
-	/**
-	 * @param pontosTabelaUm the pontosTabelaUm to set
-	 */
-	public void setPontosTabelaUm(int pontosTabelaUm) {
-		this.pontosTabelaUm = pontosTabelaUm;
-	}
-
-	/**
-	 * @return the pontosTabelaDois
-	 */
-	public int getPontosTabelaDois() {
-		return pontosTabelaDois;
-	}
-
-	/**
-	 * @param pontosTabelaDois the pontosTabelaDois to set
-	 */
-	public void setPontosTabelaDois(int pontosTabelaDois) {
-		this.pontosTabelaDois = pontosTabelaDois;
-	}
-
-	/**
-	 * @return the vez
-	 */
-	public int getVez() {
-		return vez;
-	}
-
-	/**
-	 * @param vez the vez to set
-	 */
-	public void setVez(int vez) {
-		this.vez = vez;
-	}
+public class Jogo{
 	private Posicao tabelaJogadorUm[][];//tabela do primeiro jogador, onde estao suas pecas
 	private Posicao tabelaJogadorDois[][];//tabela do segundo jogador, onde estao suas pecas
 	private int pontosTabelaUm;//quantos pontos podem ser feitos na tabela um
@@ -148,6 +78,7 @@ public class Jogo {
 	 * 1 = errou o alvo.
 	 * 2 = acertou um alvo.
 	 * 3 = jogo acabou.
+	 * 4 = posicao invalida, por ser fora da tabela.
 	 * @param x linha da tabela
 	 * @param y coluna da tabela
 	 * @return codigo dizendo o que ocorreu
@@ -156,6 +87,9 @@ public class Jogo {
 		Posicao tabelaAlvo[][] = this.getTabelaJogadorUm();
 		if(getVez() == 0){//jogador um esta acertando a tabela do jogador dois
 			tabelaAlvo = this.getTabelaJogadorDois();
+		}
+		if(x >= tabelaJogadorUm.length || y >= tabelaJogadorUm[0].length || x < 0 || y < 0){
+			return 4;
 		}
 		Posicao alvo = tabelaAlvo[x][y];
 
@@ -212,7 +146,7 @@ public class Jogo {
 		for(int i = 0; i < tabelaEscolhida.length; i++){
 			retorno += "[";
 			for(int j = 0; j < tabelaEscolhida[i].length; j++){
-				switch (tipo) {
+				switch (tipo){
 					case 0:
 						retorno += "("+tabelaEscolhida[i][j].getValorExibido()+","+tabelaEscolhida[i][j].getValorLogico()+") ";
 						break;
@@ -226,9 +160,93 @@ public class Jogo {
 						break;
 				}
 			}
-			 retorno += "]lin";
+			retorno += "]lin";
 		}
 		return retorno;
+	}
+
+
+	/**
+	 * Retorna true se a partda ja acabou e false caso ainda esteja ocorrendo
+	*/
+	public Boolean jogoAcabou(){
+		if(pontosTabelaUm == 0 || pontosTabelaDois == 0){
+			return true;
+		}
+		return false;
+	}
+
+	//GETS && SETS
+
+
+	/**
+	 * @return the tabelaJogadorUm
+	 */
+	public Posicao[][] getTabelaJogadorUm(){
+		return tabelaJogadorUm;
+	}
+
+	/**
+	 * @param tabelaJogadorUm the tabelaJogadorUm to set
+	 */
+	public void setTabelaJogadorUm(Posicao[][] tabelaJogadorUm){
+		this.tabelaJogadorUm = tabelaJogadorUm;
+	}
+
+	/**
+	 * @return the tabelaJogadorDois
+	 */
+	public Posicao[][] getTabelaJogadorDois(){
+		return tabelaJogadorDois;
+	}
+
+	/**
+	 * @param tabelaJogadorDois the tabelaJogadorDois to set
+	 */
+	public void setTabelaJogadorDois(Posicao[][] tabelaJogadorDois){
+		this.tabelaJogadorDois = tabelaJogadorDois;
+	}
+
+	/**
+	 * @return the pontosTabelaUm
+	 */
+	public int getPontosTabelaUm(){
+		return pontosTabelaUm;
+	}
+
+	/**
+	 * @param pontosTabelaUm the pontosTabelaUm to set
+	 */
+	public void setPontosTabelaUm(int pontosTabelaUm){
+		this.pontosTabelaUm = pontosTabelaUm;
+	}
+
+	/**
+	 * @return the pontosTabelaDois
+	 */
+	public int getPontosTabelaDois(){
+		return pontosTabelaDois;
+	}
+
+	/**
+	 * @param pontosTabelaDois the pontosTabelaDois to set
+	 */
+	public void setPontosTabelaDois(int pontosTabelaDois){
+		this.pontosTabelaDois = pontosTabelaDois;
+	}
+
+	/**
+	 * @return the vez
+	 */
+	public int getVez(){
+		return vez;
+	}
+
+	/**
+	 * @param vez the vez to set
+	 */
+	public void setVez(int vez){
+		this.vez = vez;
 	}
 
 }
