@@ -88,15 +88,7 @@ public class Jogo{
 		if(getVez() == 0){//jogador um esta acertando a tabela do jogador dois
 			tabelaAlvo = this.getTabelaJogadorDois();
 		}
-<<<<<<< HEAD
 		if(x >= tabelaJogadorUm.length || y >= tabelaJogadorUm[0].length || x < 0 || y < 0){
-=======
-<<<<<<< HEAD
-		if(x >= tabelaJogadorUm.length || y >= tabelaJogadorUm[0].length || x < 0 || y < 0){
-=======
-		if (x >= tabelaJogadorUm.length || y >= tabelaJogadorUm[0].length || x < 0 || y < 0) {
->>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
->>>>>>> 21b0ce6bda5903f79db53abc4fe8a9f732c9dbfc
 			return 4;
 		}
 		Posicao alvo = tabelaAlvo[x][y];
@@ -104,7 +96,7 @@ public class Jogo{
 		//verifica se o lugar ja foi acertado
 		if(alvo.getValorExibido().equals("X") || alvo.getValorExibido().equals("O")){
 			return 0;
-		} 
+		}
 
 		if(getVez() == 0){
 			setVez(1);
