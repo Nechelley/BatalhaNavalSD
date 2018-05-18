@@ -2,7 +2,7 @@
  *
  * @author Nechelley Alves
  */
-public class Posicao {
+public class Posicao{
 	private int valorLogico;
 	private String valorExibido;
 
@@ -17,28 +17,28 @@ public class Posicao {
 	/**
 	 * @return the valorLogico
 	 */
-	public int getValorLogico() {
+	public int getValorLogico(){
 		return valorLogico;
 	}
 
 	/**
 	 * @param valorLogico the valorLogico to set
 	 */
-	public void setValorLogico(int valorLogico) {
+	public void setValorLogico(int valorLogico){
 		this.valorLogico = valorLogico;
 	}
 
 	/**
 	 * @return the valorExibido
 	 */
-	public String getValorExibido() {
+	public String getValorExibido(){
 		return valorExibido;
 	}
 
 	/**
 	 * @param valorExibido the valorExibido to set
 	 */
-	public void setValorExibido(String valorExibido) {
+	public void setValorExibido(String valorExibido){
 		this.valorExibido = valorExibido;
 	}
 }

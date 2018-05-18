@@ -13,9 +13,9 @@ public class Cliente{
 		Scanner ler = new Scanner(System.in);
 
 		System.out.print("Digite o ip do servidor: ");
-		String serverHostname = ler.nextLine();
+		// String serverHostname = ler.nextLine();
 
-		// String serverHostname = new String ("127.0.0.1");
+		String serverHostname = new String ("127.0.0.1");
 
 		System.out.println ("Conectando-se ao servidor " + serverHostname + " na porta 10008.");
 
@@ -23,7 +23,7 @@ public class Cliente{
 		PrintWriter out = null;
 		BufferedReader in = null;
 
-		try{
+		try{//tentando conexao
 			echoSocket = new Socket(serverHostname, 10008);
 			out = new PrintWriter(echoSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(
@@ -41,69 +41,83 @@ public class Cliente{
 		BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		String userInput;
 
-		// System.out.println ("Type Message (\"Bye.\" to quit)");
-		System.out.println ("Conectado!\nDigite (\"SAIR\" para sair do jogo)\nPressione ENTER para começar");
-		while ((userInput = stdIn.readLine()) != null) {
-			out.println(userInput);
-			if (userInput.equals("SAIR"))
-				break;
+		String vez = in.readLine();//recebe qual jogador vc e
+		if(vez.equals("0")){
+			System.out.println("Você é o jogador 1. \nEsperando pelo jogador 2!");
+		}
+		else{
+			System.out.println("Você é o jogador 2. \nEspere sua vez!");
+		}
 
-			//codigo de vdd
-			String leuDoServidor = in.readLine();
-			if(leuDoServidor.equals("0")){//ainda existe apenas um jogador no server
-				System.out.println("Esperando jogador 2");
-				continue;
+		// System.out.println ("Jogo Iniciado!\nDigite (\"SAIR\" para sair do jogo)");
+		// (userInput = stdIn.readLine()) != null
+		while (true){
+			String leuDoServidor = in.readLine();//espera o servidor avisar q é sua vez
+
+			if(leuDoServidor.equals("1")){
+				System.out.println("Voce perdeu!!!\nO jogo acabou!");
+				break;//FINALIZA JOGO PARA PERDEDOR
 			}
-			if(leuDoServidor.equals("1")){//vez do jogador
-				System.out.println("Sua vez!\n");
-				
-				//jogar
-					
-				out.println("1");
-				String tabelas[] = in.readLine().split("tab");//separa as duas tabelas
-				System.out.println("Tabela jogador 1");
-				for (String linha : tabelas[0].split("lin")) {
-					System.out.println(linha);
-				}
-				System.out.println("\n\nTabela jogador 2");
-				for (String linha : tabelas[1].split("lin")) {
-					System.out.println(linha);
-				}
 
+			//chego a vez deste cliente
+			System.out.println("Sua vez!\n");
+
+			//exibe tabelas
+			String tabelas[] = leuDoServidor.split("tab");//separa as duas tabelas
+			System.out.println("Tiros do adversario");
+			for (String linha : tabelas[0].split("lin")){
+				System.out.println(linha);
+			}
+
+			System.out.println("\nMeus tiros");
+			for (String linha : tabelas[1].split("lin")){
+				System.out.println(linha);
+			}
+
+			//pergunta a jogada a ser feita
+			Boolean flgJogada = true;//serve para perguntar a jogada novamente ao usuario, caso esteja falsa
+			Boolean flgFimDoJogo = false;//serve para encerrar o programa se o jogo terminou
+			while(flgJogada){
 				System.out.println("\nFaça sua jodada");
 				System.out.print("Coordenada X: ");
 				String x = stdIn.readLine();
+
 				System.out.print("Coordenada Y: ");
 				String y = stdIn.readLine();
-				out.println("0 "+x+" "+y);
+				out.println(x+" "+y);
 
+				//verifica o resultado do tiro
 				int resultado = Integer.parseInt(in.readLine());
-				System.out.println(resultado);
-
-				if (resultado == 1) {
+				if(resultado == 1){
 					System.out.println("Errou :(");
-					System.out.println("Vez do adversário");
-				} else if (resultado == 2) {
-					System.out.println("Acertou :)");
-					System.out.println("Vez do adversário");
-				} else if (resultado == 0) {
-					System.out.println("Você já atirou aqui! :/\nPressione ENTER para atirar novamente!");
-				} else if (resultado == 3) {
-					System.out.println("Voce venceu!!!\nO jogo acabou!");
-					break;
+					System.out.println("Vez do adversario");
+					flgJogada = false;
 				}
+				else if(resultado == 2){
+					System.out.println("Acertou :)");
+					System.out.println("Vez do adversario");
+					flgJogada = false;
+				}
+				else if(resultado == 0){
+					System.out.println("Você já atirou aqui! :/\nPressione ENTER para atirar novamente!");
+					stdIn.readLine();//ignora o enter
+				}
+				else if(resultado == 4){
+					System.out.println("Coordenada invalida!!!\nPressione ENTER para atirar novamente!");
+					stdIn.readLine();//ignora o enter
+				}
+				else if(resultado == 3){
+					System.out.println("Voce venceu!!!\nO jogo acabou!");
+					flgJogada = false;
+					flgFimDoJogo = true;//avisa que acabou o jogo
+					break;//FINALIZA JOGO PARA VENCEDOR
+				}
+			}
 
-				continue;
-			}
-			if(leuDoServidor.equals("2")){//nao vez do jogador
-				System.out.println("Nao e sua vez!");
-			}
-			if(leuDoServidor.equals("3")){//avisa o jogador que perdeu
-				System.out.println("Voce perdeu!!!\nO jogo acabou!");
-				out.println("3 ");
+			//encerra o processo se acabou o jogoAcabou
+			if(flgFimDoJogo){
 				break;
 			}
-
 		}
 
 		out.close();

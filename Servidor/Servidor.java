@@ -68,55 +68,51 @@ public class Servidor extends Thread{
 			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
 
-			// out.println("Você é o jogador " + Servidor.jogadores);
-
 			String inputLine;
 			int vez = Servidor.jogadores - 1;//jogador 0 ou 1
 
-			while ((inputLine = in.readLine()) != null) {
-				// System.out.println("teste");
-				if (inputLine.equals("SAIR"))
-					break;
+			out.println(vez);//envia vez po cliente
 
-				//codigo de vdd
-				if(Servidor.jogadores != 2){
-					out.println("0");
-					continue;
+			while(true){
+				//manda a thread espera se n for a vez do usuario ou se n tiver jogadores suficientes na sala
+				if(vez != Servidor.batalhaNaval.getVez() || (vez == 0 && Servidor.jogadores != 2)){
+					try{
+						Thread.sleep(1000);//espera 1seg
+						continue;
+					}
+					catch (InterruptedException ex){
+						System.err.println("Erro na thread");
+					}
 				}
 
-				if(vez == Servidor.batalhaNaval.getVez()){//verifica se e a vez do jogador
+				//verificar se o jogador perdeu
+				if(Servidor.batalhaNaval.jogoAcabou()){
+					out.println("1");//codigo que diz ao cliente que ele perdeu
+					break;
+				}
 
-					if ( acabou ) {
-						out.println("3");
-					} else if (!Servidor.jogar){
-						out.println("1");
-					}
-
-					System.out.println("aqui");
-					String respostaCliente[] = in.readLine().split(" ");
-					System.out.println(respostaCliente[0]);
-					if(respostaCliente[0].equals("1")){//exibir tabelas
-						Servidor.jogar = true;
-						out.println(Servidor.batalhaNaval.tabelaToString(1, 1) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 2));
-						respostaCliente = in.readLine().split(" ");
-					}
-					if(respostaCliente[0].equals("0")){//jogou
-						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
-
-						if (resultadoAcao == 3) {
-							Servidor.acabou = true;
-						}
-
-						Servidor.jogar = false;
-					}
-					else if (respostaCliente[0].equals("3")){
-						// o jogo acabou
-						System.out.println("O jogo acabou!");
-						inputLine = null;
-					}
+				//caso o jogo n tenha acabado, mandar as tabelas ja
+				if(vez == 0){
+					out.println(Servidor.batalhaNaval.tabelaToString(1, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 1));
 				}
 				else{
-					out.println("2");
+					out.println(Servidor.batalhaNaval.tabelaToString(2, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(1, 1));
+				}
+
+				//agora e recebida a jogada no formato "x y"
+				Boolean flgJogada = true;//serve para perguntar a jogada novamente ao usuario, caso esteja falsa
+				while(flgJogada){
+					String coordenadas[] = in.readLine().split(" ");
+					int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(coordenadas[0]), Integer.parseInt(coordenadas[1]));
+
+					//envia o resultado da acao para o cliente tratar
+					out.println(resultadoAcao);
+
+					//verifica se vai ter que ler novamente as jogadas
+					// flgJogada = !(resultadoAcao == 1 || resultadoAcao == 2 || resultadoAcao == 3);
+					if(resultadoAcao == 1 || resultadoAcao == 2 || resultadoAcao == 3){
+						flgJogada = false;
+					}
 				}
 			}
 
