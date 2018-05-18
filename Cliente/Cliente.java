@@ -13,10 +13,10 @@ public class Cliente{
 	public static void main(String[] args) throws IOException{
 		Scanner ler = new Scanner(System.in);
 
-		// System.out.print("Digite o ip do servidor: ");
-		// String serverHostname = ler.nextLine();
+		System.out.print("Digite o ip do servidor: ");
+		String serverHostname = ler.nextLine();
 
-		String serverHostname = new String ("127.0.0.1");
+		// String serverHostname = new String ("127.0.0.1");
 
 		System.out.println ("Conectando-se ao servidor " + serverHostname + " na porta 10008.");
 
