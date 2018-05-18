@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  *
  * @author Nechelley Alves
@@ -39,9 +41,27 @@ public class Jogo{
 			}
 		}
 
-		tabela[1][1].setValorLogico(1);
-		tabela[1][2].setValorLogico(1);
-		tabela[1][3].setValorLogico(1);
+		int numeroPontos = 10;
+		int coordX, coordY;
+
+		Random rand = new Random();
+
+		while(numeroPontos > 0) {
+
+			// gera posição aleatória
+			coordX = rand.nextInt(tabela.length);
+			coordY = rand.nextInt(tabela.length);
+
+			if (tabela[coordX][coordY].getValorLogico() == 0) {
+				tabela[coordX][coordY].setValorLogico(1);;
+				numeroPontos--;
+			}
+
+		}
+
+		// tabela[1][1].setValorLogico(1);
+		// tabela[1][2].setValorLogico(1);
+		// tabela[1][3].setValorLogico(1);
 
 		// tabela[6][5].setValorLogico(1);
 		// tabela[6][6].setValorLogico(1);
