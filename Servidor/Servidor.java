@@ -67,11 +67,50 @@ public class Servidor extends Thread{
 		try{
 			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
+<<<<<<< HEAD
+=======
+
+			// out.println("Você é o jogador " + Servidor.jogadores);
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 
 			String inputLine;
 			int vez = Servidor.jogadores - 1;//jogador 0 ou 1
 
+<<<<<<< HEAD
 			out.println(vez);//envia vez po cliente
+=======
+			out.println(vez);
+			if (vez == 0) {
+				while(Servidor.jogadores != 2) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException ex) {
+						System.err.println("Erro");
+					}
+				}
+				out.println("1");
+			} else {
+				while(Servidor.jogadores != 2) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException ex) {
+						System.err.println("Erro");
+					}
+				}
+				out.println("0");
+			}
+
+			while ((inputLine = in.readLine()) != null) {
+				// System.out.println("teste");
+				if (inputLine.equals("SAIR"))
+					break;
+
+				//codigo de vdd
+				if(Servidor.jogadores != 2){
+					out.println("0");
+					continue;
+				}
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 
 			while(true){
 				//manda a thread espera se n for a vez do usuario ou se n tiver jogadores suficientes na sala
@@ -80,8 +119,42 @@ public class Servidor extends Thread{
 						Thread.sleep(1000);//espera 1seg
 						continue;
 					}
+<<<<<<< HEAD
 					catch (InterruptedException ex){
 						System.err.println("Erro na thread");
+=======
+					
+					System.out.println("aqui");
+					String respostaCliente[] = in.readLine().split(" ");
+					System.out.println(respostaCliente[0]);
+					if(respostaCliente[0].equals("1")){//exibir tabelas
+						Servidor.jogar = true;
+
+						if (vez == 0) {
+
+							out.println(Servidor.batalhaNaval.tabelaToString(1, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 1));
+						} else {
+							out.println(Servidor.batalhaNaval.tabelaToString(2, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(1, 1));
+						}
+						respostaCliente = in.readLine().split(" ");
+						System.out.println(respostaCliente[0]);
+					} 
+					if(respostaCliente[0].equals("0")){//jogou
+						
+						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(respostaCliente[1]), Integer.parseInt(respostaCliente[2]));
+
+						if (resultadoAcao == 3) {
+							Servidor.acabou = true;
+						}
+
+						Servidor.jogar = false;
+						out.println(resultadoAcao);
+					}
+					else if (respostaCliente[0].equals("3")){
+						// o jogo acabou
+						System.out.println("O jogo acabou!");
+						inputLine = null;
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 					}
 				}
 

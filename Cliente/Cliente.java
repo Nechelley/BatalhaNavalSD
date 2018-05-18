@@ -41,6 +41,7 @@ public class Cliente{
 		BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		String userInput;
 
+<<<<<<< HEAD
 		String vez = in.readLine();//recebe qual jogador vc e
 		if(vez.equals("0")){
 			System.out.println("Você é o jogador 1. \nEsperando pelo jogador 2!");
@@ -48,6 +49,23 @@ public class Cliente{
 		else{
 			System.out.println("Você é o jogador 2. \nEspere sua vez!");
 		}
+=======
+		// System.out.println ("Type Message (\"Bye.\" to quit)");
+
+		String vez = in.readLine();
+		if (vez.equals("0")) {
+			System.out.println("Você é o jogador 1. \nEsperando pelo jogador 2!");
+			in.readLine();
+		} else {
+			System.out.println("Você é o jogador 2. \nEspere sua vez!");
+		}
+
+		System.out.println ("Jogo Iniciado!\nDigite (\"SAIR\" para sair do jogo)");
+		while ((userInput = stdIn.readLine()) != null) {
+			out.println(userInput);
+			if (userInput.equals("SAIR"))
+				break;
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 
 		// System.out.println ("Jogo Iniciado!\nDigite (\"SAIR\" para sair do jogo)");
 		// (userInput = stdIn.readLine()) != null
@@ -73,6 +91,24 @@ public class Cliente{
 			for (String linha : tabelas[1].split("lin")){
 				System.out.println(linha);
 			}
+<<<<<<< HEAD
+=======
+			if(leuDoServidor.equals("1")){//vez do jogador
+				System.out.println("Sua vez!\n");
+				
+				//jogar
+					
+				out.println("1");
+				String tabelas[] = in.readLine().split("tab");//separa as duas tabelas
+				System.out.println("Tiros do adversario");
+				for (String linha : tabelas[0].split("lin")) {
+					System.out.println(linha);
+				}
+				System.out.println("\nMeus tiros");
+				for (String linha : tabelas[1].split("lin")) {
+					System.out.println(linha);
+				}
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 
 			//pergunta a jogada a ser feita
 			Boolean flgJogada = true;//serve para perguntar a jogada novamente ao usuario, caso esteja falsa
@@ -81,7 +117,14 @@ public class Cliente{
 				System.out.println("\nFaça sua jodada");
 				System.out.print("Coordenada X: ");
 				String x = stdIn.readLine();
+<<<<<<< HEAD
 
+=======
+				// while(!x.equals("") && x != null) {
+				// 	System.out.print("Coordenada X: ");
+				// 	x = stdIn.readLine();
+				// } 
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 				System.out.print("Coordenada Y: ");
 				String y = stdIn.readLine();
 				out.println(x+" "+y);
@@ -100,6 +143,7 @@ public class Cliente{
 				}
 				else if(resultado == 0){
 					System.out.println("Você já atirou aqui! :/\nPressione ENTER para atirar novamente!");
+<<<<<<< HEAD
 					stdIn.readLine();//ignora o enter
 				}
 				else if(resultado == 4){
@@ -107,6 +151,11 @@ public class Cliente{
 					stdIn.readLine();//ignora o enter
 				}
 				else if(resultado == 3){
+=======
+				} else if (resultado == 4) {
+					System.out.println("Coordenada inválida!!!\nPressione ENTER para atirar novamente!");
+				} else if (resultado == 3) {
+>>>>>>> 7aab6cea39d6a9872e6cc33d56949347a1da6d16
 					System.out.println("Voce venceu!!!\nO jogo acabou!");
 					flgJogada = false;
 					flgFimDoJogo = true;//avisa que acabou o jogo
