@@ -13,6 +13,7 @@ public class Servidor extends Thread{
 	private static int jogadores = 0;
 	private static Boolean acabou = false;
 	private static Boolean jogar = false;
+	private static Boolean jogadorSaiu = false;
 
 	public static void main(String[] args) throws IOException{
 		ServerSocket serverSocket = null;
@@ -74,6 +75,13 @@ public class Servidor extends Thread{
 			out.println(vez);//envia vez po cliente
 
 			while(true){
+				
+				if (Servidor.jogadorSaiu) {
+					out.println("3");
+					System.out.println("O jogo foi encerrado, alguem deixou o jogo !!!");
+					break;
+				}
+
 				//manda a thread espera se n for a vez do usuario ou se n tiver jogadores suficientes na sala
 				if(vez != Servidor.batalhaNaval.getVez() || (vez == 0 && Servidor.jogadores != 2)){
 					try{
@@ -84,13 +92,13 @@ public class Servidor extends Thread{
 						System.err.println("Erro na thread");
 					}
 				}
-
+				
 				//verificar se o jogador perdeu
 				if(Servidor.batalhaNaval.jogoAcabou()){
 					out.println("1");//codigo que diz ao cliente que ele perdeu
 					break;
 				}
-
+				
 				//caso o jogo n tenha acabado, mandar as tabelas ja
 				if(vez == 0){
 					out.println(Servidor.batalhaNaval.tabelaToString(1, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(2, 1));
@@ -98,24 +106,38 @@ public class Servidor extends Thread{
 				else{
 					out.println(Servidor.batalhaNaval.tabelaToString(2, 0) + "tab" + Servidor.batalhaNaval.tabelaToString(1, 1));
 				}
-
+				
 				//agora e recebida a jogada no formato "x y"
 				Boolean flgJogada = true;//serve para perguntar a jogada novamente ao usuario, caso esteja falsa
 				while(flgJogada){
+					
 					String coordenadas[] = in.readLine().split(" ");
-					int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(coordenadas[0]), Integer.parseInt(coordenadas[1]));
-
-					//envia o resultado da acao para o cliente tratar
-					out.println(resultadoAcao);
-
-					//verifica se vai ter que ler novamente as jogadas
-					// flgJogada = !(resultadoAcao == 1 || resultadoAcao == 2 || resultadoAcao == 3);
-					if(resultadoAcao == 1 || resultadoAcao == 2 || resultadoAcao == 3){
+					if (coordenadas[0].equals("Sair")) {
+						if (vez == 0) {
+							vez = 1;
+						} else {
+							vez = 0;
+						}
+						Servidor.jogadorSaiu = true;
+						out.println("5");//Jogador saiu da partida
 						flgJogada = false;
+					} else {
+
+						int resultadoAcao = Servidor.batalhaNaval.fazerAcao(Integer.parseInt(coordenadas[0]), Integer.parseInt(coordenadas[1]));
+				
+						//envia o resultado da acao para o cliente tratar
+						out.println(resultadoAcao);
+
+						//verifica se vai ter que ler novamente as jogadas
+						// flgJogada = !(resultadoAcao == 1 || resultadoAcao == 2 || resultadoAcao == 3);
+						if(resultadoAcao == 1 || resultadoAcao == 2 || resultadoAcao == 3){
+							flgJogada = false;
+						}
 					}
 				}
 			}
 
+			System.out.println("A partida terminou!");
 			out.close();
 			in.close();
 			clientSocket.close();

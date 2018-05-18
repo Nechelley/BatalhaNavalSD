@@ -8,11 +8,12 @@ import java.util.Scanner;
  */
 public class Cliente{
 	protected Socket clientSocket;
+	private static Boolean saiu = false;
 
 	public static void main(String[] args) throws IOException{
 		Scanner ler = new Scanner(System.in);
 
-		System.out.print("Digite o ip do servidor: ");
+		// System.out.print("Digite o ip do servidor: ");
 		// String serverHostname = ler.nextLine();
 
 		String serverHostname = new String ("127.0.0.1");
@@ -43,24 +44,36 @@ public class Cliente{
 
 		String vez = in.readLine();//recebe qual jogador vc e
 		if(vez.equals("0")){
-			System.out.println("Você é o jogador 1. \nEsperando pelo jogador 2!");
+			System.out.println("Você é o jogador 1. \nEsperando pelo jogador 2!\nPara abandonar a partida digite 'Sair'");
 		}
 		else{
-			System.out.println("Você é o jogador 2. \nEspere sua vez!");
+			System.out.println("Você é o jogador 2. \nEspere sua vez!\nPara abandonar a partida digite 'Sair'");
 		}
 
 		// System.out.println ("Jogo Iniciado!\nDigite (\"SAIR\" para sair do jogo)");
 		// (userInput = stdIn.readLine()) != null
 		while (true){
+
 			String leuDoServidor = in.readLine();//espera o servidor avisar q é sua vez
+			if (leuDoServidor.equals("5")) {
+				System.out.println("\nVocê abandou a partida");
+				break;
+			}
+
+			if (leuDoServidor.equals("3")) {
+				System.out.println("\n****** Você Venceu | Seu adversário desistiu *****");
+				break;
+			}
 
 			if(leuDoServidor.equals("1")){
-				System.out.println("Voce perdeu!!!\nO jogo acabou!");
+				System.out.println("\n----- Voce perdeu -----\nO jogo acabou!");
 				break;//FINALIZA JOGO PARA PERDEDOR
 			}
 
 			//chego a vez deste cliente
-			System.out.println("Sua vez!\n");
+			System.out.println("**************************************************");
+			System.out.println("*                 SUA VEZ!                       *");
+			System.out.println("**************************************************");
 
 			//exibe tabelas
 			String tabelas[] = leuDoServidor.split("tab");//separa as duas tabelas
@@ -81,21 +94,34 @@ public class Cliente{
 				System.out.println("\nFaça sua jodada");
 				System.out.print("Coordenada X: ");
 				String x = stdIn.readLine();
+				if (Cliente.verificaSair(x)) {
+					Cliente.saiu = true;
+					out.println("Sair");
+					break;
+				}
 
 				System.out.print("Coordenada Y: ");
 				String y = stdIn.readLine();
+				if (Cliente.verificaSair(y)) {
+					Cliente.saiu = true;
+					out.println("Sair");
+					break;
+				}
+				
 				out.println(x+" "+y);
 
 				//verifica o resultado do tiro
 				int resultado = Integer.parseInt(in.readLine());
 				if(resultado == 1){
 					System.out.println("Errou :(");
-					System.out.println("Vez do adversario");
+					System.out.println("\n                Vez do adversario");
+					System.out.println("--------------------------X------------------------\n");
 					flgJogada = false;
 				}
 				else if(resultado == 2){
 					System.out.println("Acertou :)");
-					System.out.println("Vez do adversario");
+					System.out.println("\n                Vez do adversario");
+					System.out.println("--------------------------X------------------------\n");
 					flgJogada = false;
 				}
 				else if(resultado == 0){
@@ -107,7 +133,7 @@ public class Cliente{
 					stdIn.readLine();//ignora o enter
 				}
 				else if(resultado == 3){
-					System.out.println("Voce venceu!!!\nO jogo acabou!");
+					System.out.println("\n***** Voce venceu *****\nO jogo acabou!");
 					flgJogada = false;
 					flgFimDoJogo = true;//avisa que acabou o jogo
 					break;//FINALIZA JOGO PARA VENCEDOR
@@ -124,6 +150,13 @@ public class Cliente{
 		in.close();
 		stdIn.close();
 		echoSocket.close();
+	}
+
+	private static Boolean verificaSair(String entradaUsuario) {
+		if (entradaUsuario.equals("Sair")){
+			return true;
+		}
+		return false;
 	}
 
 }
